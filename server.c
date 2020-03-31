@@ -48,29 +48,18 @@ int main(int argc, char *argv[])
     if (newsockfd < 0)
         error("Error on accepting\n");
 
-    FILE *f;
-    int words =0;
-    char c;
-    f= fopen("nameoffile.txt", "r");
+    FILE *fp;
+    int ch =0;
+    fp = fopen("nameoffile_received.txt", "a");
+    int words;
+    read(newsockfd, &words, sizeof(int));
 
-    while (c=getc(f)!= EOF)
+    while (ch != words)
     {
-        fscanf(f,"%s",buffer);
-        if (isspace(c) || c == '\t')
-            words++;
+        read(newsockfd,buffer,255);
+        fprintf(fp,"%s",buffer);
+        ch++;
     }
-
-    write(sockfd,&words, sizeof(int));
-    rewind(f);
-
-    char ch;
-    while (ch != EOF)
-    {
-        fscanf(f,"%s",buffer);
-        write(sockfd,buffer,255);
-        ch = fgetc(f);
-    }
-    printf("The file has been sent.\n");
 
     close(newsockfd);
     close(sockfd);
