@@ -1,0 +1,3 @@
+This is a sample text file.
+This file is used for demonstrating how a text file is sent between server and it's clients through sockets.
+This falls under TCP Socket Programming.
